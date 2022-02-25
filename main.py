@@ -1,3 +1,7 @@
+#Pour que ce programme fonctionne correctement, il est important d'installer la librairie prettytable
+# la commande pour l'instaler est (à taper dans le terminal ou l'invite de commande)
+# python -m pip install -U prettytable
+
 import copy
 from prettytable import PrettyTable
 

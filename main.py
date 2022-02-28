@@ -21,8 +21,8 @@ passager = {
 	"numPhone" : "aucun"
 }
 
-listeBusFlotte = [{'immatriculation': 'LT123', 'nbrePlace': 2, 'nbrePlaceDispo': 1, 'capaciteKgTotal': 500.0, 'capaciteKgDispo': 485.0, 'listePassagers': [{'cni': '123', 'nomEtPrenom': 'Aristide', 'poidsBagages': 15.0, 'numPhone': '655585654'}]}, {'immatriculation': 'LT456', 'nbrePlace': 3, 'nbrePlaceDispo': 3, 'capaciteKgTotal': 500.0, 'capaciteKgDispo': 500.0, 'listePassagers': [{'cni': '114477', 'nomEtPrenom': 'Roland', 'poidsBagages': 30.0, 'numPhone': '699979495'}]}]
-listePassagerFlotte = [{'cni': '123', 'nomEtPrenom': 'Aristide', 'poidsBagages': 15.0, 'numPhone': '655585654'}, {'cni': '114477', 'nomEtPrenom': 'Roland', 'poidsBagages': 30.0, 'numPhone': '699979495'}]
+listeBusFlotte = [{'immatriculation': 'LT123', 'nbrePlace': 70, 'nbrePlaceDispo': 68, 'capaciteKgTotal': 2000.0, 'capaciteKgDispo': 1945.0, 'listePassagers': [{'cni': '167439854', 'nomEtPrenom': 'Bekono Rolland', 'poidsBagages': 30.0, 'numPhone': '695483215'}, {'cni': '119652782', 'nomEtPrenom': 'Mallaury Maeva', 'poidsBagages': 25.0, 'numPhone': '675421893'}]}, {'immatriculation': 'NO456', 'nbrePlace': 50, 'nbrePlaceDispo': 49, 'capaciteKgTotal': 1500.0, 'capaciteKgDispo': 1475.0, 'listePassagers': [{'cni': '117873528', 'nomEtPrenom': 'Tizi Aristide', 'poidsBagages': 25.0, 'numPhone': '693911539'}]}, {'immatriculation': 'CE159', 'nbrePlace': 70, 'nbrePlaceDispo': 70, 'capaciteKgTotal': 3000.0, 'capaciteKgDispo': 3000.0, 'listePassagers': []}]
+listePassagerFlotte = [{'cni': '117873528', 'nomEtPrenom': 'Tizi Aristide', 'poidsBagages': 25.0, 'numPhone': '693911539'}, {'cni': '167439854', 'nomEtPrenom': 'Bekono Rolland', 'poidsBagages': 30.0, 'numPhone': '695483215'}, {'cni': '119652782', 'nomEtPrenom': 'Mallaury Maeva', 'poidsBagages': 25.0, 'numPhone': '675421893'}]
 
 
 #Fonctions relatives à la gestion des bus 
@@ -39,8 +39,7 @@ def verifierSiBusPlein(immatriculation_b):
 		if bus["immatriculation"] == immatriculation_b:
 			if bus["nbrePlaceDispo"] > 0:
 				return False
-			else:
-				return True
+	return True
 
 def verifierEspaceBagageSuffisant(immatriculation_b, poidsBagages_p):
 	#Verifier si la soute à bagage du bus peut recevoir les bagages d'un passager
@@ -48,8 +47,7 @@ def verifierEspaceBagageSuffisant(immatriculation_b, poidsBagages_p):
 		if bus["immatriculation"] == immatriculation_b:
 			if bus["capaciteKgDispo"] >= poidsBagages_p:
 				return True
-			else:
-				return False
+	return False
 
 def getBusPassager(cni_p, immatriculation_b):
 	for bus in listeBusFlotte:
@@ -110,13 +108,9 @@ def verifierTransfertBus(imm_bus_depart, imm_bus_destination):
 			return True
 		else:
 			print(f'Désolé, le bus immatriculé {immatriculationBusB} n\'a plus assez d\'espace disponible dans sa soute à bagages pour accueillir les bagages du bus immatriculé {immatriculationBusA}')
-			return False
 	else:
 		print(f'Désolé, le bus immatriculé {immatriculationBusB} n\'a plus assez de places disponible pour accueillir les passagers du bus immatriculé {immatriculationBusA}')
-		return False
-
-def deplacerPassager(imm_bus_depart, imm_bus_destination):
-	pass
+	return False
 
 def verifierPassagerDansBus(cni_p, immatriculation_b):
 	#Verifier l'existance d'un passager dans un bus
@@ -125,10 +119,7 @@ def verifierPassagerDansBus(cni_p, immatriculation_b):
 			for passager in bus["listePassagers"]:
 				if passager["cni"] == cni_p:
 					return True
-				else:
-					return False
-		else:
-			return False
+	return False
 
 
 #Fonctions relatives à la gestion des passagers
@@ -137,8 +128,7 @@ def verifierExistancePassager(cni_p):
 	for passager in listePassagerFlotte:
 		if passager["cni"] == cni_p:
 			return True
-		else:
-			return False
+	return False
 
 def enregistrerPassager():
 	#verifier que le passager n'existe pas déjà
@@ -225,12 +215,10 @@ while choix=="9":
 			print("--------------------------------------------------------------")
 			cniPassager=input("Entrer le numéro de CNI du passager: ")
 			#On verifie que le passager est enregistré
-			estPassagerEnregistre = verifierExistancePassager(cniPassager)
-			if estPassagerEnregistre == True:
+			if verifierExistancePassager(cniPassager):
 				#On verifie que le bus est enregistré
 				immatriculationBus = input("Veuillez entrer l'immatriculation du bus: ")
-				estBusEnregistre = verifierExistanceBus(immatriculationBus)
-				if estBusEnregistre == True:
+				if verifierExistanceBus(immatriculationBus):
 					ajouterPassagerBus(cniPassager, immatriculationBus)
 					print("Le passager a bien été ajouté dans le bus!")
 				else:
@@ -245,14 +233,11 @@ while choix=="9":
 			print("-------------------------------------------------------------")
 			cniPassager=input("Entrer le numéro de CNI du passager: ")
 			#On verifie que le passager est enregistré
-			estPassagerEnregistre = verifierExistancePassager(cniPassager)
-			if estPassagerEnregistre == True:
+			if verifierExistancePassager(cniPassager):
 				#On verifie que le bus est enregistré
 				immatriculationBus = input("Veuillez entrer l'immatriculation du bus: ")
-				estBusEnregistre = verifierExistanceBus(immatriculationBus)
-				if estBusEnregistre == True:
-					if verifierPassagerDansBus(cniPassager, immatriculationBus) == True:
-						pass
+				if verifierExistanceBus(immatriculationBus):
+					if verifierPassagerDansBus(cniPassager, immatriculationBus):
 						retirerPassagerBus(cniPassager, immatriculationBus)
 						print("Le passager a bien été retiré du bus!")
 				else:
@@ -303,8 +288,7 @@ while choix=="9":
 			print("-----------------------------------------------------------------")
 			#On verifie que le bus est enregistré
 			immatriculationBus = input("Veuillez entrer l'immatriculation du bus: ")
-			estBusEnregistre = verifierExistanceBus(immatriculationBus)
-			if estBusEnregistre == True:
+			if verifierExistanceBus(immatriculationBus):
 				nombrePlace = getNbrePlaceDispoBus(immatriculationBus)
 				print(f'Le bus immatriculé {immatriculationBus} a {nombrePlace} place(s) disponible!')
 			else:
@@ -317,8 +301,7 @@ while choix=="9":
 			print("--------------------------------------------------------------")
 			#On verifie que le bus est enregistré
 			immatriculationBus = input("Veuillez entrer l'immatriculation du bus: ")
-			estBusEnregistre = verifierExistanceBus(immatriculationBus)
-			if estBusEnregistre == True:
+			if verifierExistanceBus(immatriculationBus):
 				nombreKg = getNbreKgDispoBus(immatriculationBus)
 				print(f'Le bus immatriculé {immatriculationBus} a {nombreKg} Kg disponible!')
 			else:
@@ -331,11 +314,9 @@ while choix=="9":
 			print("-------------------------------------------------------------")
 			#On verifie que les bus sont enregistrés
 			immatriculationBusA = input("Veuillez entrer l'immatriculation du bus A: ")
-			estBusAEnregistre = verifierExistanceBus(immatriculationBusA)
-			if estBusAEnregistre == True:
+			if verifierExistanceBus(immatriculationBusA):
 				immatriculationBusB = input("Veuillez entrer l'immatriculation du bus B: ")
-				estBusBEnregistre = verifierExistanceBus(immatriculationBusB)
-				if estBusBEnregistre == True:
+				if verifierExistanceBus(immatriculationBusB):
 					if verifierTransfertBus(immatriculationBusA, immatriculationBusB):
 						print(f'OUI. Les passagers et les bagages du bus immatriculé {immatriculationBusA} peuvent être transférés vers le bus immatriculé {immatriculationBusB}')
 				else:
@@ -360,8 +341,8 @@ while choix=="9":
 			print("INFORMATIONS GENERALE SUR LA FLOTTE -- Afficher la liste de tous les bus")
 			print("------------------------------------------------------------------------")
 			tableauBus = PrettyTable(['Immatriculation Bus', 'Nombre de places'])
-			for bus in listeBusFlotte:
-				tableauBus.add_row([bus["immatriculation"], bus["nbrePlace"]])
+			for bus_p in listeBusFlotte:
+				tableauBus.add_row([bus_p["immatriculation"], bus_p["nbrePlace"]])
 			print(tableauBus)
 
 		elif choix=="2":
@@ -382,9 +363,10 @@ while choix=="9":
 			for bus in listeBusFlotte:
 				print(f'BUS  {bus["immatriculation"]}')
 				tableauPassagerB = PrettyTable(['Numéros CNI', 'Noms et Prénoms'])
-				for passager in bus["listePassagers"]:
-					tableauPassagerB.add_row([passager["cni"], passager["nomEtPrenom"]])
+				for passagerB in bus["listePassagers"]:
+					tableauPassagerB.add_row([passagerB["cni"], passagerB["nomEtPrenom"]])
 				print(tableauPassagerB)
+				print("")
 
 		else:
 			messageBadInput()
@@ -399,4 +381,3 @@ while choix=="9":
 print("********************************")
 print("||Fin du programme -- Aurevoir||")
 print("********************************")
-
